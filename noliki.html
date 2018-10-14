@@ -58,7 +58,10 @@
                 [0,4,8],
                 [2,4,6]
             ]
-            var k=[];
+            var colors = [
+                '#ED3CCA','#98FB98','#89AC76','#FFFF00','#FC6C85','#5D76CB',
+                '#DAA520','#4169E1','#009900'
+            ]
             var computerTurn =false;
             var resetButton = document.getElementById("reset");
             resetButton.onclick = restartGame;
@@ -139,6 +142,7 @@
                 if (fullClets === 9) {
                     message.innerHTML = "Ничья!";
                     resetButton.classList.remove("hidden");
+                    clets[i].style.background-color('colors');
                     return true;
                 }
                 return false;
