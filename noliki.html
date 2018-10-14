@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>noliki</title>
+    <style>
+        .igra {
+            margin: auto;
+            margin-top: 150px;
+            border-collapse: collapse;
+
+        }
+
+        #message {
+            margin-top: 40px;
+            text-align: center;
+        }
+        #reset {
+            background-color: darkgoldenrod;
+            margin-left: 730px;
+        }
+        .hidden {
+            display: none;
+        }
+        .redtext {
+            background-color: red;
+        }
+        .bluetext {
+            background-color: blue;
+        }
+
+        td {
+            height: 120px;
+            width: 120px;
+            border: 3px solid green;
+            text-align: center;
+            font-size: 34px;
+        }
+
+        body {
+            background-color: oldlace;
+        }
+
+    </style>
+    <script>
+        window.onload = function() {
+            var winningCombinations = [
+                [0,1,2],
+                [3,4,5],
+                [6,7,8],
+                [0,3,6],
+                [1,4,7],
+                [2,5,8],
+                [0,4,8],
+                [2,4,6]
+            ]
+            var k=[];
+            var computerTurn =false;
+            var resetButton = document.getElementById("reset");
+            resetButton.onclick = restartGame;
+            var message = document.getElementById("message");
+            var fullClets = 0;
+            var clets = document.getElementsByTagName("td");
+            for (var i = 0; i < clets.length; i++) {
+                clets[i].onclick = showAnswer;
+               
+            }
+            
+            function restartGame(eventObg) {
+                resetButton.classList.add("hidden");
+                fullClets = 0;
+                computerTurn=false;
+                for (var i = 0; i < clets.length; i++){
+                    clets[i].innerHTML="";
+                    clets[i].classList.remove('redtext', 'bluetext');
+                    message.innerHTML="крестики-нолики";
+                }
+                
+            }
+
+            function showAnswer(eventObg) {
+                if (computerTurn){
+                    return;
+                }
+                var name = eventObg.target;
+                if(name.innerHTML===""){
+                name.innerHTML = "O";
+                    console.log(name);
+                fullClets++;
+                computerTurn=true;
+                if (checkIfWon("O")) {
+                                      
+                    return;
+                    
+                }
+                    
+                if (checkIfFull()) {
+                    return;
+                }
+                    
+                console.log(name.innerHTML);
+                setTimeout(compu, 1000);
+            
+            }
+                
+            }
+                
+                 
+            
+            function compu() {
+                var new_indx;
+                var randomizer = Math.floor(Math.random()*clets.length);
+                for (i=0;i < clets.length; i++){
+                    new_indx = (randomizer+i)%clets.length;
+                    
+                    if (clets[new_indx].innerHTML === "") {
+                        clets[new_indx].innerHTML = "X";
+                        fullClets++;
+                        if (checkIfWon('X')) {
+                            
+                            return;
+                        }
+                        if (checkIfFull()) {
+                            return;
+                        }
+                        break;
+                    }
+                }
+                computerTurn=false;
+                    }
+         
+            
+
+            function checkIfFull() {
+                if (fullClets === 9) {
+                    message.innerHTML = "Ничья!";
+                    resetButton.classList.remove("hidden");
+                    return true;
+                }
+                return false;
+            }
+            
+            function checkIfWon(symbol) {
+                var won;
+                for (var i = 0; i < winningCombinations.length; i++) {
+                    won = true;
+                    for (var k = 0; k < 3; k++) {
+                        if (clets[winningCombinations[i][k]].innerHTML != symbol) {
+                            won = false;
+                            break;
+                        }
+                    }
+                    if (won) {
+                        if (symbol == 'X') {
+                          message.innerHTML = 'Вы проиграли... 🤗';
+                          var winningColor = 'bluetext'
+                        } else {
+                          message.innerHTML = 'Победа! 🎉';
+                          var winningColor = 'redtext'
+                        }
+                        for (k=0; k<3; k++) {
+                          clets[winningCombinations[i][k]].setAttribute("class", winningColor);
+                        }
+                        resetButton.classList.remove('hidden')
+                        return true;
+                    }
+                }
+                return false;
+            }
+        
+        }
+            
+        
+
+    </script>
+
+</head>
+
+<body>
+    <h1 id=message>крестики-нолики</h1>
+    <button class=hidden id=reset>повторить</button>
+    <div>
+        <table class=igra>
+            <tr>
+                <td id=cell1></td>
+                <td id=cell2></td>
+                <td id=cell3></td>
+            </tr>
+            <tr>
+                <td id=cell4></td>
+                <td id=cell5></td>
+                <td id=cell6></td>
+            </tr>
+            <tr>
+                <td id=cell7></td>
+                <td id=cell8></td>
+                <td id=cell9></td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>
