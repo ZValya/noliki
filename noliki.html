@@ -81,9 +81,11 @@
                 for (var i = 0; i < clets.length; i++){
                     clets[i].innerHTML="";
                     clets[i].classList.remove('redtext', 'bluetext');
+                    
+                    
                     message.innerHTML="Крестики-Нолики";
                 }
-                
+                clets[i].style.background!=(colors[i]);
             }
 
             function showAnswer(eventObg) {
@@ -141,20 +143,11 @@
 
             function checkIfFull() {
                 if (fullClets === 9) {
-                    
                     for (i=0;i<clets.length;i++){
-                        
-                    
-                    for(j=0;j<colors.length;j++)
-                    clets[i].style.background=(colors[j]);
-                        
-                    
+                    clets[i].style.background=(colors[i]);
                     }
                     message.innerHTML = "Ничья!";
                     resetButton.classList.remove("hidden");
-                    
-                    
-                                                 
                     return true;
                 }
                 return false;
